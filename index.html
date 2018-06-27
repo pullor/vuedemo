@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>vuetest</title>
+    <script>
+    window.onLoad  = function(){
+      var map = new AMap.Map('container');
+      var mapObj = new AMap.Map('iCenter');
+      mapObj.plugin(["AMap.CitySearch"], function() {
+        //实例化城市查询类
+        var citysearch = new AMap.CitySearch();
+        //自动获取用户IP，返回当前城市
+        citysearch.getLocalCity();
+        AMap.event.addListener(citysearch, "complete", function(result){
+            if(result && result.city && result.bounds) {
+                var cityinfo = result.city;
+                var citybounds = result.bounds;
+                console.log(result)
+            }
+            else {
+                document.getElementById('result').innerHTML = "您当前所在城市："+result.info+"";
+            }
+        });
+        AMap.event.addListener(citysearch, "error", function(result){alert(result.info);});
+      });
+    }
+    var url = 'http://webapi.amap.com/maps?v=1.4.6&key=5b2a55693f34cc7a2cf68359ea4e363c&callback=onLoad';
+    var jsapi = document.createElement('script');
+    jsapi.charset = 'utf-8';
+    jsapi.src = url;
+    document.head.appendChild(jsapi);
+    </script>
+
+  </head>
+  <body>
+
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
