@@ -1,5 +1,10 @@
 <template>
   <div id="container">
+    <button @click="getback()">go to the mine page</button>
+    <button @click="postmessage1()">post message</button>
+    <p>this is 10.12.0.40</p>
+    <router-link to="/render">Go to Foo</router-link>
+    
   </div>
 </template>
 
@@ -12,24 +17,26 @@ export default {
     }
   },
   mounted: function () {
-    this.addmap()
+    this.getenvironment();
+    console.log(this.$myName);
   },
   methods: {
-    addmap: function () {
-      console.log(111111111)
-      var map = new AMap.Map('container', {
-        resizeEnable: true,
-        center: [116.397428, 39.90923],
-        zoom: 13
-      })
-      console.log(map)
-      // 实时路况图层
-      var trafficLayer = new AMap.TileLayer.Traffic({
-        zIndex: 10
-      })
-      map.add(trafficLayer);// 添加图层到地图
+    getback(){
+      // wx.miniProgram.navigateTo({url: '/pages/cawx/index?value=13213231'})
+      wx.miniProgram.navigateBack(1)
+    },
+    postmessage1(){
+      wx.miniProgram.postMessage({ data:{ msg: 'second'} });
+      console.log('send data success');
+      this.getenvironment();
+    },
+    getenvironment(){
+      wx.miniProgram.getEnv(function(res) { 
+        console.log(res.miniprogram) // true 
+        })
     }
   }
+  
 }
 </script>
 
